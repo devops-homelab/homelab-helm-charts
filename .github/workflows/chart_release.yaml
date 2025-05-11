@@ -4,8 +4,14 @@ on:
     branches:
       - main 
  
+
+
 jobs:
-  Version: 
+  release-chart:
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
     name: Chart Version, Package and Publish
     uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/helm-release.yaml@main
     with:
