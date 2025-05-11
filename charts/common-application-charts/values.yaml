@@ -1,0 +1,52 @@
+replicaCount: 2
+
+image:
+  repository: registry.digitalocean.com/home-lab-container-registry/mt-doctor-record-service
+  tag: d894880
+
+environment: dev
+
+service:
+  type: ClusterIP
+  port: 8084
+  targetPort: 8084
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+ingress:
+  className: kong
+  annotations:
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: "dev.doctor-records.apps.meditrack-app.me"
+      paths:
+        - "/"
+  tls:
+    - hosts:
+        - "dev.doctor-records.apps.meditrack-app.me"
+        - "preview.dev.doctor-records.apps.meditrack-app.me"
+      secretName: "dev-doctor-records-tls-secret"
+
+envFromSecrets:
+  DB_USER:
+    secretName: db-credentials
+    key: username
+  DB_PASSWORD:
+    secretName: db-credentials
+    key: password
+  DB_NAME:
+    secretName: db-credentials
+    key: name
+  DB_HOST:
+    secretName: db-credentials
+    key: host
+  DB_PORT:
+    secretName: db-credentials
+    key: port

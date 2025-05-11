@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: ENVIRONMENT
+              value: {{ .Values.environment | quote }}
+            {{- if .Values.envFromSecrets }}
+            {{- range $key, $value := .Values.envFromSecrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value.secretName }}
+                  key: {{ $value.key }}
+            {{- end }}
+            {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+  strategy:
+    blueGreen:
+      activeService: {{ .Release.Name }}-active
+      previewService: {{ .Release.Name }}-preview
+      autoPromotionEnabled: false
+
+# ---
+
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: integration-test-job
+#   annotations:
+#     argocd.argoproj.io/hook: PreSync
+# spec:
+#   backoffLimit: 1
+#   template:
+#     spec:
+#       containers:
+#         - name: integration-test-job-success
+#           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}    
+#           command: 
+#             - /bin/sh
+#             - -c
+#             - |
+#               wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
+#               tar -C /usr/local -xzf go1.23.4.linux-amd64.tar.gz
+#               /usr/local/go/bin/go mod tidy && cd tests/integration && /usr/local/go/bin/go test -v
+#       restartPolicy: Never
