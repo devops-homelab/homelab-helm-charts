@@ -1,0 +1,13 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: master
+chart-dirs:
+  - charts
+# chart-repos:
+#   - dim-dsre-helm-charts=https://syscobt-docker.jfrog.io/artifactory/dim-dsre-helm-charts
+helm-extra-args: --timeout 600s
+validate-chart-schema: false
+validate-maintainers: false
+validate-yaml: true
+exclude-deprecated: true
+excluded-charts: []

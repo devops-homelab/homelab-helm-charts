@@ -1,0 +1,13 @@
+name: Chart Release
+on:
+  push:
+    branches:
+      - main 
+ 
+jobs:
+  Version: 
+    name: Chart Version, Package and Publish
+    uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/helm-release.yaml@main
+    with:
+      REPO_URL: https://raw.githubusercontent.com/devops-homelab/homelab-helm-charts/gh-pages
+      GITHUB_PAT: ${{ secrets.GH_PAT }}      
