@@ -22,7 +22,6 @@ resources:
 ingress:
   className: kong
   annotations:
-    # nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
     - host: "dev.doctor-records.apps.meditrack-app.me"
