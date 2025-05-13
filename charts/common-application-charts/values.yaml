@@ -33,6 +33,9 @@ ingress:
         - "preview.dev.doctor-records.apps.meditrack-app.me"
       secretName: "dev-doctor-records-tls-secret"
 
+podAnnotations:
+  secret.reloader.stakater.com/reload: "db-credentials"
+
 envFromSecrets:
   DB_USER:
     secretName: db-credentials
