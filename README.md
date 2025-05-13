@@ -57,6 +57,25 @@ To uninstall a release:
 helm uninstall <release-name>
 ```
 
+## Continuous Integration (CI)
+
+This repository includes two GitHub Actions workflows to ensure the quality and reliability of Helm charts:
+
+### 1. `chart_release.yaml`
+- **Purpose**: Automates the release process for Helm charts.
+- **Trigger**: Runs on a `push` event to the `main` branch.
+- **Job**: 
+  - **Name**: `release-chart`
+  - **Functionality**: Uses a reusable workflow (`helm-release.yaml`) from the `homelab-github-reusable-workflows` repository to handle chart versioning, packaging, and publishing.
+  - **Secrets**: Requires a GitHub Personal Access Token (`GH_PAT`) for authentication.
+
+### 2. `chart_test.yaml`
+- **Purpose**: Tests Helm charts for quality and correctness.
+- **Trigger**: Runs on `pull_request` events (e.g., opened, reopened, labeled, synchronized) targeting the `main` branch.
+- **Job**:
+  - **Name**: `lint-test`
+  - **Functionality**: Uses a reusable workflow (`helm-test.yaml`) from the `homelab-github-reusable-workflows` repository to perform linting and testing.
+
 ## Contributing
 
 Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
