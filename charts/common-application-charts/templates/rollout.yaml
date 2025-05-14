@@ -43,11 +43,20 @@ spec:
             limits:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
+
   strategy:
+    {{- if eq .Values.strategy.type "canary" }}
+    canary:
+      maxSurge: {{ .Values.strategy.canary.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.canary.maxUnavailable }}
+      steps:
+        {{- toYaml .Values.strategy.canary.steps | nindent 8 }}
+    {{- else if eq .Values.strategy.type "blueGreen" }}
     blueGreen:
-      activeService: {{ .Release.Name }}-active
-      previewService: {{ .Release.Name }}-preview
-      autoPromotionEnabled: false
+      activeService: {{ .Values.strategy.blueGreen.activeService }}
+      previewService: {{ .Values.strategy.blueGreen.previewService }}
+      autoPromotionEnabled: {{ .Values.strategy.blueGreen.autoPromotionEnabled }}
+    {{- end }}
 
 # ---
 
