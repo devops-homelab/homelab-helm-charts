@@ -36,6 +36,23 @@ ingress:
 podAnnotations:
   secret.reloader.stakater.com/reload: "db-credentials"
 
+strategy:
+  type: canary
+  canary:
+    maxSurge: 25%
+    maxUnavailable: 0
+    steps:
+      - setWeight: 10
+      - pause:
+          duration: 30s
+      - setWeight: 30
+      - pause:
+          duration: 30s
+      - setWeight: 60
+      - pause:
+          duration: 30s
+      - setWeight: 100
+
 envFromSecrets:
   DB_USER:
     secretName: db-credentials
