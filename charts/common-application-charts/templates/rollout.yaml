@@ -45,7 +45,7 @@ spec:
               cpu: {{ .Values.resources.limits.cpu }}
 
   strategy:
-    {{- if eq .Values.strategy.type "canary" | default "blueGreen" }}
+    {{- if eq .Values.strategy.type "canary" }}
     canary:
       maxSurge: {{ .Values.strategy.canary.maxSurge }}
       maxUnavailable: {{ .Values.strategy.canary.maxUnavailable }}
