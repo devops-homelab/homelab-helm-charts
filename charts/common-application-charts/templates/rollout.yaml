@@ -45,13 +45,13 @@ spec:
               cpu: {{ .Values.resources.limits.cpu }}
 
   strategy:
-    {{- if eq .Values.strategy.type "canary" }}
+    {{- if eq .Values.strategy.type "canary" | default "canary" }}
     canary:
       maxSurge: {{ .Values.strategy.canary.maxSurge }}
       maxUnavailable: {{ .Values.strategy.canary.maxUnavailable }}
       steps:
         {{- toYaml .Values.strategy.canary.steps | nindent 8 }}
-    {{- else if eq .Values.strategy.type "blueGreen" }}
+    {{- else if eq .Values.strategy.type "blueGreen" | default "blueGreen" }}
     blueGreen:
       activeService: {{ .Values.strategy.blueGreen.activeService }}
       previewService: {{ .Values.strategy.blueGreen.previewService }}
