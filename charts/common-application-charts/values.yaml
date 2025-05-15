@@ -38,6 +38,9 @@ podAnnotations:
 
 strategy:
   type: blueGreen
+  activeService: "dev-doctor-records"
+  previewService: "preview-dev-doctor-records"
+  autoPromotionEnabled: true
 
 # strategy:
 #   type: canary
