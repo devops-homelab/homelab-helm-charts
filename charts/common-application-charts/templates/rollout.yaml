@@ -44,7 +44,7 @@ spec:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
 
-{{- if and .Values.strategy (hasKey .Values.strategy "type") }}
+{{- if and (.Values.strategy) (kindIs "map" .Values.strategy) }}
   strategy:
     {{- if eq .Values.strategy.type "canary" }}
     canary:
