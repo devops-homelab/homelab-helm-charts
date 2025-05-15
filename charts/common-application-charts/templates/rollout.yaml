@@ -44,6 +44,7 @@ spec:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
 
+{{- if and .Values.strategy (hasKey .Values.strategy "type") }}
   strategy:
     {{- if eq .Values.strategy.type "canary" }}
     canary:
@@ -57,6 +58,7 @@ spec:
       previewService: {{ .Values.strategy.blueGreen.previewService }}
       autoPromotionEnabled: {{ .Values.strategy.blueGreen.autoPromotionEnabled }}
     {{- end }}
+{{- end }}
 
 # ---
 
