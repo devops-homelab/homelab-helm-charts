@@ -20,6 +20,7 @@ resources:
     cpu: "500m"
 
 ingress:
+  enabled: true  # Add explicit enabled flag
   className: kong
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
