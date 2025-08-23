@@ -3,7 +3,7 @@ entries:
   common-application-charts:
   - apiVersion: v2
     appVersion: 1.0.8
-    created: "2025-08-23T15:12:39.555341157Z"
+    created: "2025-08-23T15:12:40.421671206Z"
     description: A Helm chart for common application charts
     digest: f74d2b8862803f3788ccc403dd8b7f3cddc2fe34fb2b48192e67ba74bf60168e
     maintainers:
@@ -12,11 +12,11 @@ entries:
     name: common-application-charts
     type: application
     urls:
-    - https://github.com/devops-homelab/homelab-helm-charts/releases/download/common-application-charts-1.0.8/common-application-charts-1.0.8.tgz
+    - https://raw.githubusercontent.com/devops-homelab/homelab-helm-charts/gh-pages/common-application-charts-1.0.8.tgz
     version: 1.0.8
   - apiVersion: v2
     appVersion: 1.0.7
-    created: "2025-05-15T14:26:24.571583Z"
+    created: "2025-08-23T15:12:40.421187243Z"
     description: A Helm chart for common application charts
     digest: f35b26188f18e96df5101eaf7073bdac2ef929b595d2b945e6c969e6d0c359d2
     maintainers:
@@ -29,7 +29,7 @@ entries:
     version: 1.0.7
   - apiVersion: v2
     appVersion: 1.0.6
-    created: "2025-05-15T14:26:24.570823134Z"
+    created: "2025-08-23T15:12:40.420833133Z"
     description: A Helm chart for common application charts
     digest: f4cb4e5b65368a9bc60673bd3055f0a3202b74b98750bc93e3c35be8abd0da3c
     maintainers:
@@ -42,7 +42,7 @@ entries:
     version: 1.0.6
   - apiVersion: v2
     appVersion: 1.0.5
-    created: "2025-05-15T14:26:24.570104029Z"
+    created: "2025-08-23T15:12:40.420438086Z"
     description: A Helm chart for common application charts
     digest: bd559d0c31e4a87750343e079becc8149bdd60d355c1acd9b63c498b90b93cc3
     maintainers:
@@ -55,7 +55,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: 1.0.4
-    created: "2025-05-15T14:26:24.569370389Z"
+    created: "2025-08-23T15:12:40.42015084Z"
     description: A Helm chart for common application charts
     digest: 9ff5eb403252319f9973430174339efe8dd904b645051dc00064954bd20d0f64
     maintainers:
@@ -66,4 +66,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/devops-homelab/homelab-helm-charts/gh-pages/common-application-charts-1.0.4.tgz
     version: 1.0.4
-generated: "2025-08-23T15:12:39.555415957Z"
+generated: "2025-08-23T15:12:40.419706722Z"
