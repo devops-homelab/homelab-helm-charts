@@ -1,0 +1,39 @@
+{{- if .Values.gateway }}
+{{- if .Values.gateway.enabled -}}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "common-application-charts.fullname" . }}-gateway
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common-application-charts.labels" . | nindent 4 }}
+  {{- with .Values.gateway.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  gatewayClassName: {{ .Values.gateway.gatewayClassName | default "kong" }}
+  listeners:
+  {{- range .Values.gateway.listeners }}
+  - name: {{ .name }}
+    port: {{ .port }}
+    protocol: {{ .protocol | default "HTTP" }}
+    {{- if .hostname }}
+    hostname: {{ .hostname }}
+    {{- end }}
+    {{- if eq .protocol "HTTPS" }}
+    tls:
+      mode: {{ .tls.mode | default "Terminate" }}
+      {{- if .tls.certificateRefs }}
+      certificateRefs:
+      {{- range .tls.certificateRefs }}
+      - name: {{ .name }}
+        {{- if .namespace }}
+        namespace: {{ .namespace }}
+        {{- end }}
+      {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end -}}

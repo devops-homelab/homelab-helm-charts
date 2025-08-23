@@ -20,6 +20,7 @@ resources:
     cpu: "500m"
 
 ingress:
+  enabled: true  # Add explicit enabled flag
   className: kong
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -32,6 +33,47 @@ ingress:
         - "dev.doctor-records.apps.meditrack-app.me"
         - "preview.dev.doctor-records.apps.meditrack-app.me"
       secretName: "dev-doctor-records-tls-secret"
+
+# Gateway API Configuration (alternative to ingress)
+gateway:
+  enabled: false  # Set to true to use Gateway API instead of Ingress
+  gatewayClassName: "kong"
+  annotations: {}
+  listeners:
+    - name: "http"
+      port: 80
+      protocol: "HTTP"
+      hostname: "dev.doctor-records.apps.meditrack-app.me"
+    - name: "https"
+      port: 443
+      protocol: "HTTPS"
+      hostname: "dev.doctor-records.apps.meditrack-app.me"
+      tls:
+        mode: "Terminate"
+        certificateRefs:
+          - name: "dev-doctor-records-tls-secret"
+
+httpRoute:
+  enabled: false  # Set to true to use HTTPRoute instead of Ingress
+  gatewayName: ""  # Will default to {release-name}-gateway
+  gatewayNamespace: ""  # Optional, defaults to same namespace
+  hostnames:
+    - "dev.doctor-records.apps.meditrack-app.me"
+  rules:
+    - matches:
+        - path:
+            type: "PathPrefix"
+            value: "/"
+      backendRefs:
+        - name: ""  # Will default to service name
+          port: 8084
+          weight: 100
+      filters:
+        - type: "RequestHeaderModifier"
+          requestHeaderModifier:
+            add:
+              - name: "X-Gateway-API"
+                value: "kong"
 
 podAnnotations:
   secret.reloader.stakater.com/reload: "db-credentials"
