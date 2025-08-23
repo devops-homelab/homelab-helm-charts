@@ -1,4 +1,5 @@
-{{- if and .Values.httpRoute .Values.httpRoute.enabled -}}
+{{- if .Values.httpRoute }}
+{{- if .Values.httpRoute.enabled -}}
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -96,4 +97,5 @@ spec:
     {{- end }}
     {{- end }}
   {{- end }}
+{{- end }}
 {{- end -}}
