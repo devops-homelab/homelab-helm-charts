@@ -43,7 +43,7 @@ spec:
     {{- end }}
     backendRefs:
     {{- range .backendRefs }}
-    - name: {{ .name }}
+    - name: {{ .name | default (printf "%s-active" $.Release.Name) }}
       port: {{ .port }}
       {{- if .weight }}
       weight: {{ .weight }}
