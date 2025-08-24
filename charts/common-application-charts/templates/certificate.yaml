@@ -48,3 +48,55 @@ spec:
   {{- end }}
 {{- end }}
 {{- end -}}
+---
+{{- if .Values.previewCertificate }}
+{{- if .Values.previewCertificate.enabled -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "common-application-charts.fullname" . }}-preview-tls-cert
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common-application-charts.labels" . | nindent 4 }}
+    app.kubernetes.io/component: preview
+  {{- with .Values.previewCertificate.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  secretName: {{ .Values.previewCertificate.secretName | default (printf "%s-preview-tls-secret" (include "common-application-charts.fullname" .)) }}
+  issuerRef:
+    name: {{ .Values.previewCertificate.issuerRef.name | default "letsencrypt-prod" }}
+    kind: {{ .Values.previewCertificate.issuerRef.kind | default "ClusterIssuer" }}
+    {{- if .Values.previewCertificate.issuerRef.group }}
+    group: {{ .Values.previewCertificate.issuerRef.group }}
+    {{- end }}
+  {{- if .Values.previewCertificate.commonName }}
+  commonName: {{ .Values.previewCertificate.commonName }}
+  {{- end }}
+  dnsNames:
+  {{- range .Values.previewCertificate.dnsNames }}
+  - {{ . | quote }}
+  {{- end }}
+  {{- if .Values.previewCertificate.duration }}
+  duration: {{ .Values.previewCertificate.duration }}
+  {{- end }}
+  {{- if .Values.previewCertificate.renewBefore }}
+  renewBefore: {{ .Values.previewCertificate.renewBefore }}
+  {{- end }}
+  {{- if .Values.previewCertificate.subject }}
+  subject:
+    {{- toYaml .Values.previewCertificate.subject | nindent 4 }}
+  {{- end }}
+  {{- if .Values.previewCertificate.privateKey }}
+  privateKey:
+    {{- toYaml .Values.previewCertificate.privateKey | nindent 4 }}
+  {{- end }}
+  {{- if .Values.previewCertificate.usages }}
+  usages:
+  {{- range .Values.previewCertificate.usages }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- end -}}
