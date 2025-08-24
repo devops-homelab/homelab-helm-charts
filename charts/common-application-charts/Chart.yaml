@@ -2,8 +2,8 @@ apiVersion: v2
 name: common-application-charts
 description: A Helm chart for common application charts
 type: application
-version: 1.0.11
-appVersion: 1.0.11
+version: 1.0.12
+appVersion: 1.0.12
 maintainers:
   - name: DevOps Homelab
     email: navindushane@gmail.com
