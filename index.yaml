@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   common-application-charts:
   - apiVersion: v2
+    appVersion: 1.0.12
+    created: "2025-08-24T16:23:32.467707138Z"
+    description: A Helm chart for common application charts
+    digest: a96805cb1e3d99c4c0487c4fc1e1b6dfba624edd2ff0b79586f4fe515f0b6dc1
+    maintainers:
+    - email: navindushane@gmail.com
+      name: DevOps Homelab
+    name: common-application-charts
+    type: application
+    urls:
+    - https://github.com/devops-homelab/homelab-helm-charts/releases/download/common-application-charts-1.0.12/common-application-charts-1.0.12.tgz
+    version: 1.0.12
+  - apiVersion: v2
     appVersion: 1.0.11
     created: "2025-08-24T16:16:01.924732234Z"
     description: A Helm chart for common application charts
@@ -105,4 +118,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/devops-homelab/homelab-helm-charts/gh-pages/common-application-charts-1.0.4.tgz
     version: 1.0.4
-generated: "2025-08-24T16:16:01.923616203Z"
+generated: "2025-08-24T16:23:32.467746742Z"
