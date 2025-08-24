@@ -28,6 +28,21 @@ charts/
 - **Gateway API v1.0.0**: Modern Kubernetes networking with advanced traffic management
 - **Seamless Migration**: Run both implementations side-by-side
 
+## Network Flow Diagram
+
+```mermaid
+graph LR
+  Client -->|HTTPS| LBIngress[LoadBalancer]
+  LBIngress --> Ingress[Kong Ingress]
+  Ingress --> ServiceA[Service (Ingress)]
+  
+  Client -->|HTTPS| LBGateway[LoadBalancer]
+  LBGateway --> Gateway[Kong Gateway]
+  Gateway --> HTTPRoute[HTTPRoute]
+  HTTPRoute --> ServiceB[Service (Gateway API)]
+  HTTPRoute --> Preview[Preview Subdomain]
+```
+
 ### Advanced Deployment Strategies
 - **Blue-Green Deployments**: Zero-downtime deployments with Argo Rollouts
 - **Preview Environments**: Test new versions before promotion
