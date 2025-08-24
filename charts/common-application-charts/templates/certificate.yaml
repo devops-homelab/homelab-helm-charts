@@ -1,0 +1,50 @@
+{{- if .Values.certificate }}
+{{- if .Values.certificate.enabled -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "common-application-charts.fullname" . }}-tls-cert
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common-application-charts.labels" . | nindent 4 }}
+  {{- with .Values.certificate.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  secretName: {{ .Values.certificate.secretName | default (printf "%s-tls-secret" (include "common-application-charts.fullname" .)) }}
+  issuerRef:
+    name: {{ .Values.certificate.issuerRef.name | default "letsencrypt-prod" }}
+    kind: {{ .Values.certificate.issuerRef.kind | default "ClusterIssuer" }}
+    {{- if .Values.certificate.issuerRef.group }}
+    group: {{ .Values.certificate.issuerRef.group }}
+    {{- end }}
+  {{- if .Values.certificate.commonName }}
+  commonName: {{ .Values.certificate.commonName }}
+  {{- end }}
+  dnsNames:
+  {{- range .Values.certificate.dnsNames }}
+  - {{ . | quote }}
+  {{- end }}
+  {{- if .Values.certificate.duration }}
+  duration: {{ .Values.certificate.duration }}
+  {{- end }}
+  {{- if .Values.certificate.renewBefore }}
+  renewBefore: {{ .Values.certificate.renewBefore }}
+  {{- end }}
+  {{- if .Values.certificate.subject }}
+  subject:
+    {{- toYaml .Values.certificate.subject | nindent 4 }}
+  {{- end }}
+  {{- if .Values.certificate.privateKey }}
+  privateKey:
+    {{- toYaml .Values.certificate.privateKey | nindent 4 }}
+  {{- end }}
+  {{- if .Values.certificate.usages }}
+  usages:
+  {{- range .Values.certificate.usages }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- end -}}
