@@ -32,15 +32,15 @@ charts/
 
 ```mermaid
 graph LR
-  Client -->|HTTPS| LBIngress["Load Balancer"]
-  LBIngress --> Ingress["Kong Ingress"]
-  Ingress --> ServiceA["Service - Ingress"]
-
-  Client -->|HTTPS| LBGateway["Load Balancer"]
-  LBGateway --> Gateway["Kong Gateway"]
-  Gateway --> HTTPRoute["HTTPRoute"]
-  HTTPRoute --> ServiceB["Service - Gateway API"]
-  HTTPRoute --> Preview["Preview Subdomain"]
+  Client -->|HTTPS| LBIngress[LoadBalancer]
+  LBIngress --> Ingress[Kong Ingress]
+  Ingress --> ServiceA[Service (Ingress)]
+  
+  Client -->|HTTPS| LBGateway[LoadBalancer]
+  LBGateway --> Gateway[Kong Gateway]
+  Gateway --> HTTPRoute[HTTPRoute]
+  HTTPRoute --> ServiceB[Service (Gateway API)]
+  HTTPRoute --> Preview[Preview Subdomain]
 ```
 
 ### Advanced Deployment Strategies
