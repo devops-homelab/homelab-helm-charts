@@ -2,7 +2,7 @@ name: AI Helm Failure Advisor
 
 on:
   workflow_run:
-    workflows: ["Chart Test", "Chart Release"]
+    workflows: ["Chart Test"]
     types:
       - completed
 
