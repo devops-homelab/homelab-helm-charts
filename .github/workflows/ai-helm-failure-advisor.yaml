@@ -32,7 +32,6 @@ jobs:
             echo "logs=No logs found." >> $GITHUB_OUTPUT
           fi
 
-
       - name: Query AI for suggestion
         id: ai
         env:
