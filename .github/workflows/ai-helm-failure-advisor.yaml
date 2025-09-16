@@ -65,3 +65,5 @@ jobs:
           body: |
             :robot: **AI Helm Chart Failure Suggestion**
             ```
+            ${{ steps.ai.outputs.suggestion }}
+            ```
