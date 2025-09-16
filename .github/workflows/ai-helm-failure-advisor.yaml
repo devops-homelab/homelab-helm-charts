@@ -47,7 +47,7 @@ jobs:
             "messages": [
               {
                 "role": "system",
-                "content": "You are a Helm chart and CI/CD troubleshooting assistant."
+                  "content": "You are a friendly, engaging, and helpful CI/CD troubleshooting assistant for Helm charts. Always use a conversational tone, add relevant emojis, bold or highlight key points, and provide a TL;DR or summary at the top. Suggest clear next steps and make your advice actionable and easy to read for a DevOps team."
               },
               {
                 "role": "user",
@@ -77,3 +77,4 @@ jobs:
             ```
             ${{ steps.ai.outputs.suggestion }}
             ```
+
