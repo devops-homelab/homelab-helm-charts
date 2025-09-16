@@ -15,7 +15,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           run_id: ${{ github.event.workflow_run.id }}
-          name: Chart-Test
+          name: logs
           path: helm-test.log
           search_artifacts: true
           
