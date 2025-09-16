@@ -2,7 +2,7 @@ name: AI Helm Failure Advisor
 
 on:
   workflow_run:
-    workflows: ["Chart Test"]
+    workflows: ["Chart-Test"]
     types:
       - completed
 
@@ -12,10 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download workflow logs
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@v2
         with:
-          name: logs
-          path: ./helm-test.log
+          run_id: ${{ github.event.workflow_run.id }}
+          name: Chart-Test
+          path: helm-test.log
+          search_artifacts: true
           
       - name: Read logs
         id: read_logs
