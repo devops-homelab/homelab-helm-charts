@@ -53,6 +53,7 @@ jobs:
           echo "$SUGGESTION" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+
       - name: Comment on PR
         if: ${{ github.event.workflow_run.pull_requests[0].number }}
         uses: peter-evans/create-or-update-comment@v4
@@ -63,4 +64,6 @@ jobs:
           token: ${{ env.token }}
           body: |
             :robot: **AI Helm Chart Failure Suggestion**
+            ```
+            ${{ steps.ai.outputs.suggestion }}
             ```
