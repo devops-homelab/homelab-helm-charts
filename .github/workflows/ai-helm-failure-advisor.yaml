@@ -49,10 +49,8 @@ jobs:
               ]
             }')
           SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
-          echo "suggestion<<EOF" >> $GITHUB_OUTPUT
-          echo "$SUGGESTION" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
+          # Set output for use in later steps
+          echo "suggestion=$SUGGESTION" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
         if: ${{ github.event.workflow_run.pull_requests[0].number }}
@@ -67,3 +65,4 @@ jobs:
             ```
             ${{ steps.ai.outputs.suggestion }}
             ```
+
