@@ -32,7 +32,6 @@ jobs:
             echo "logs=No logs found." >> $GITHUB_OUTPUT
           fi
 
-
       - name: Query AI for suggestion
         id: ai
         env:
@@ -48,8 +47,9 @@ jobs:
                 {"role": "user", "content": "My Helm chart test or release failed. Here are the logs:\n\n'"${{ steps.read_logs.outputs.logs }}"'\n\nSuggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant."}
               ]
             }')
+          echo "RESPONSE: $RESPONSE"
           SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
-          # Set output for use in later steps
+          echo "SUGGESTION: $SUGGESTION"
           echo "suggestion=$SUGGESTION" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
