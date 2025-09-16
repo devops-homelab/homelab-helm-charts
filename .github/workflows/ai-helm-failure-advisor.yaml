@@ -40,13 +40,16 @@ jobs:
           RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
             -H "Content-Type: application/json" \
-            -d '{
+            -d @- <<EOF
+            {
               "model": "gpt-4o",
               "messages": [
                 {"role": "system", "content": "You are a Helm chart and CI/CD troubleshooting assistant."},
-                {"role": "user", "content": "My Helm chart test or release failed. Here are the logs:\n\n'"${{ steps.read_logs.outputs.logs }}"'\n\nSuggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant."}
+                {"role": "user", "content": "My Helm chart test or release failed. Here are the logs:\n\n${{ steps.read_logs.outputs.logs }}\n\nSuggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant."}
               ]
-            }')
+            }
+            EOF
+                )
           echo "RESPONSE: $RESPONSE"
           SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
           echo "SUGGESTION: $SUGGESTION"
@@ -65,4 +68,5 @@ jobs:
             ```
             ${{ steps.ai.outputs.suggestion }}
             ```
+
 
