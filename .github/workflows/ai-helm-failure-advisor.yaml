@@ -15,12 +15,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: logs
-          path: ./logs
-
+          path: helm-test.log
+          
       - name: Read logs
         id: read_logs
         run: |
-          LOG_FILE=$(find ./logs -type f | head -n 1)
+          LOG_FILE=helm-test.log
           if [ -f "$LOG_FILE" ]; then
             LOGS=$(cat "$LOG_FILE")
             echo "logs<<EOF" >> $GITHUB_OUTPUT
