@@ -51,17 +51,18 @@ jobs:
               },
               {
                 "role": "user",
-                "content": "My Helm chart test or release failed. Here are the logs:\n\n ${{ steps.read_logs.outputs.logs }}\n\nSuggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant."
+                "content": "My Helm chart test or release failed. Here are the logs:\n\n${{ steps.read_logs.outputs.logs }}\n\nSuggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant."
               }
             ]
           }
           EOF
           )
 
-          echo "RESPONSE: $RESPONSE"
           SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
           echo "SUGGESTION: $SUGGESTION"
-          echo "suggestion=$SUGGESTION" >> $GITHUB_OUTPUT
+          echo "suggestion<<EOF" >> $GITHUB_OUTPUT
+          echo "$SUGGESTION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
         if: ${{ github.event.workflow_run.pull_requests[0].number }}
