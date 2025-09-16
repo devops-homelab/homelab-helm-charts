@@ -22,7 +22,7 @@ jobs:
       - name: Read logs
         id: read_logs
         run: |
-          LOG_FILE=./logs/helm-test.log
+          LOG_FILE=helm-test.log/helm-test.log
           if [ -f "$LOG_FILE" ]; then
             LOGS=$(cat "$LOG_FILE")
             echo "logs<<EOF" >> $GITHUB_OUTPUT
