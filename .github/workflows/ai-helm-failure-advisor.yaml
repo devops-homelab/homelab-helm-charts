@@ -58,7 +58,7 @@ jobs:
       user_prompt: |
         My Helm chart test or release failed. Here are the logs:
 
-        ${{ needs.get-logs.outputs.logs }}
+          hello
 
         Suggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant.
     secrets: 
