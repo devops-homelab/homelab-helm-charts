@@ -41,7 +41,6 @@ jobs:
             echo "logs=No logs found." >> $GITHUB_OUTPUT
           fi
 
-          
   # get-logs:
   #   uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
   #   with:
@@ -58,7 +57,7 @@ jobs:
       user_prompt: |
         My Helm chart test or release failed. Here are the logs:
 
-          hello
+           ${{ needs.get-logs.outputs.logs }}
 
         Suggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant.
     secrets: 
