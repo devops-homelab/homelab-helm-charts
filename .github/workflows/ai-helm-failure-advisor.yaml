@@ -2,7 +2,7 @@ name: AI Advisor Example
 
 on:
   workflow_run:
-    workflows: ["Chart Test"]
+    workflows: ["Chart-Test"]
     types:
       - completed
 
