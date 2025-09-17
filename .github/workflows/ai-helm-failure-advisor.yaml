@@ -9,14 +9,43 @@ on:
 permissions:
   contents: read
   actions: read
-  
+
 jobs:
   get-logs:
-    uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
-    with:
-      artifact_name: logs
-      log_file_path: helm-test.log
-      run_id: ${{ github.event.workflow_run.id }}
+    runs-on: ubuntu-latest
+
+    outputs:
+      logs: ${{ steps.read_logs.outputs.logs }}
+
+    steps:
+      - name: Download logs artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: logs
+          path: helm-test.log
+          search_artifacts: true
+
+      - name: Read logs
+        id: read_logs
+        run: |
+          LOG_FILE=${{ inputs.log_file_path }}/${{ inputs.log_file_path }}
+          if [ -f "$LOG_FILE" ]; then
+            echo "--- LOG FILE CONTENTS ---"
+            cat "$LOG_FILE"
+            echo "--- END LOG FILE CONTENTS ---"
+            echo "logs<<EOF" >> $GITHUB_OUTPUT
+            cat "$LOG_FILE" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "logs=No logs found." >> $GITHUB_OUTPUT
+          fi
+  # get-logs:
+  #   uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
+  #   with:
+  #     artifact_name: logs
+  #     log_file_path: helm-test.log
+  #     run_id: ${{ github.event.workflow_run.id }}
 
   ai-advisor:
     needs: get-logs

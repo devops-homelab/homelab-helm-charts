@@ -29,3 +29,4 @@ spec:
       targetPort: {{ .Values.service.targetPort }}
   selector:
     app: {{ .Chart.Name }}
+
