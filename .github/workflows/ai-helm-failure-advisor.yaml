@@ -6,8 +6,11 @@ on:
     types:
       - completed
 
+permissions:
+  contents: read
+  actions: read
+  
 jobs:
-
   get-logs:
     uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
     with:
