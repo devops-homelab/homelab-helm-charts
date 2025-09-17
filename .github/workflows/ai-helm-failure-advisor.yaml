@@ -21,7 +21,7 @@ jobs:
       - name: Download logs artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          run_id: helm-test.log/helm-test.log
+          run_id: ${{ github.event.workflow_run.id }}
           name: logs
           path: helm-test.log
           search_artifacts: true
@@ -29,7 +29,7 @@ jobs:
       - name: Read logs
         id: read_logs
         run: |
-          LOG_FILE=${{ inputs.log_file_path }}/${{ inputs.log_file_path }}
+          LOG_FILE=helm-test.log/helm-test.log
           if [ -f "$LOG_FILE" ]; then
             echo "--- LOG FILE CONTENTS ---"
             cat "$LOG_FILE"
@@ -41,7 +41,7 @@ jobs:
             echo "logs=No logs found." >> $GITHUB_OUTPUT
           fi
 
-
+          
   # get-logs:
   #   uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
   #   with:
