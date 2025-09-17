@@ -18,4 +18,6 @@ jobs:
         ${{ github.event.workflow_run.head_commit.message }}
 
         Suggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant.
-    secrets: inherit
+    secrets: 
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GH_PAT: ${{ secrets.GH_PAT }}
