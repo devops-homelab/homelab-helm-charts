@@ -40,6 +40,8 @@ jobs:
           else
             echo "logs=No logs found." >> $GITHUB_OUTPUT
           fi
+
+          
   # get-logs:
   #   uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/get-workflow-logs.yaml@main
   #   with:
