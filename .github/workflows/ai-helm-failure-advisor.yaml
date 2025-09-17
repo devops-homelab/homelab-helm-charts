@@ -8,7 +8,7 @@ on:
 
 jobs:
   ai-advisor:
-    uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/ai-advisor.yaml@feature/add-ai-advisor
+    uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/ai-advisor.yaml@main
     with:
       system_prompt: |
         You are a friendly, engaging, and helpful CI/CD troubleshooting assistant for Helm charts. Use emojis, bold key points, and provide a TL;DR at the top. Make your advice actionable and easy to read for a DevOps team.
