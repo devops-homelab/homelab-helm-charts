@@ -53,6 +53,7 @@ gateway:
         certificateRefs:
           - name: "dev-doctor-records-tls-secret"
 
+
 httpRoute:
   enabled: false  # Set to true to use HTTPRoute instead of Ingress
   gatewayName: ""  # Will default to {release-name}-gateway
