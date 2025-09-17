@@ -11,6 +11,7 @@ service:
   port: 8084
   targetPort: 8084
 
+
 resources:
   requests:
     memory: "64Mi"
