@@ -31,11 +31,12 @@ jobs:
         run: |
           LOG_FILE=helm-test.log/helm-test.log
           if [ -f "$LOG_FILE" ]; then
-            echo "--- LOG FILE CONTENTS ---"
-            cat "$LOG_FILE"
-            echo "--- END LOG FILE CONTENTS ---"
+            echo "--- LOG FILE ERROR LINES ---"
+            grep -i -E 'error|failed|exception' "$LOG_FILE" > extracted_errors.log || echo "No error lines found." > extracted_errors.log
+            cat extracted_errors.log
+            echo "--- END ERROR LINES ---"
             echo "logs<<EOF" >> $GITHUB_OUTPUT
-            cat "$LOG_FILE" >> $GITHUB_OUTPUT
+            cat extracted_errors.log >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
           else
             echo "logs=No logs found." >> $GITHUB_OUTPUT
