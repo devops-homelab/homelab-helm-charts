@@ -13,6 +13,7 @@ permissions:
 jobs:
   get-logs:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
 
     outputs:
       logs: ${{ steps.read_logs.outputs.logs }}
