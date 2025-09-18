@@ -1,4 +1,4 @@
-name: AI Workflow Failure Advisor
+name: AI failure advisor
 
 on:
   workflow_run:
