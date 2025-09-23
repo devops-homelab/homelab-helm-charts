@@ -1,61 +1,61 @@
-name: AI Workflow Failure Advisor
+# name: AI Workflow Failure Advisor
 
-on:
-  workflow_run:
-    workflows: ["Chart-Test"]
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["Chart-Test"]
+#     types:
+#       - completed
 
-permissions:
-  contents: read
-  actions: read
+# permissions:
+#   contents: read
+#   actions: read
 
-jobs:
-  get-logs:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+# jobs:
+#   get-logs:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
 
-    outputs:
-      logs: ${{ steps.read_logs.outputs.logs }}
+#     outputs:
+#       logs: ${{ steps.read_logs.outputs.logs }}
 
-    steps:
-      - name: Download logs artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          run_id: ${{ github.event.workflow_run.id }}
-          name: logs
-          path: helm-test.log
-          search_artifacts: true
+#     steps:
+#       - name: Download logs artifact
+#         uses: dawidd6/action-download-artifact@v2
+#         with:
+#           run_id: ${{ github.event.workflow_run.id }}
+#           name: logs
+#           path: helm-test.log
+#           search_artifacts: true
 
-      - name: Read logs
-        id: read_logs
-        run: |
-          LOG_FILE=helm-test.log/helm-test.log
-          if [ -f "$LOG_FILE" ]; then
-            echo "--- LOG FILE ERROR LINES ---"
-            grep -i -E 'error|failed|exception' "$LOG_FILE" > extracted_errors.log || echo "No error lines found." > extracted_errors.log
-            cat extracted_errors.log
-            echo "--- END ERROR LINES ---"
-            echo "logs<<EOF" >> $GITHUB_OUTPUT
-            cat extracted_errors.log >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-          else
-            echo "logs=No logs found." >> $GITHUB_OUTPUT
-          fi
+#       - name: Read logs
+#         id: read_logs
+#         run: |
+#           LOG_FILE=helm-test.log/helm-test.log
+#           if [ -f "$LOG_FILE" ]; then
+#             echo "--- LOG FILE ERROR LINES ---"
+#             grep -i -E 'error|failed|exception' "$LOG_FILE" > extracted_errors.log || echo "No error lines found." > extracted_errors.log
+#             cat extracted_errors.log
+#             echo "--- END ERROR LINES ---"
+#             echo "logs<<EOF" >> $GITHUB_OUTPUT
+#             cat extracted_errors.log >> $GITHUB_OUTPUT
+#             echo "EOF" >> $GITHUB_OUTPUT
+#           else
+#             echo "logs=No logs found." >> $GITHUB_OUTPUT
+#           fi
 
-  ai-advisor:
-    needs: get-logs
-    uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/ai-advisor.yaml@main
-    with:
-      system_prompt: |
-        You are a friendly, engaging, and helpful CI/CD troubleshooting assistant for Helm charts. Use emojis, bold key points, and provide a TL;DR at the top. Make your advice actionable and easy to read for a DevOps team.
-      user_prompt: |
-        My Helm chart test or release failed. Here are the logs:
+#   ai-advisor:
+#     needs: get-logs
+#     uses: devops-homelab/homelab-github-reusable-workflows/.github/workflows/ai-advisor.yaml@main
+#     with:
+#       system_prompt: |
+#         You are a friendly, engaging, and helpful CI/CD troubleshooting assistant for Helm charts. Use emojis, bold key points, and provide a TL;DR at the top. Make your advice actionable and easy to read for a DevOps team.
+#       user_prompt: |
+#         My Helm chart test or release failed. Here are the logs:
 
-           ${{ needs.get-logs.outputs.logs }}
+#            ${{ needs.get-logs.outputs.logs }}
 
-        Suggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant.
-    secrets: 
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      GH_PAT: ${{ secrets.GH_PAT }}
+#         Suggest a fix and explain the likely cause. Reference values.yaml, Chart.yaml, or rollout.yaml if relevant.
+#     secrets: 
+#       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+#       GH_PAT: ${{ secrets.GH_PAT }}
 
