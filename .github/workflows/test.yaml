@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    runs-on: homelab-runner
+    runs-on: dsre-runner
     steps:
       - name: Print hello
         run: echo "Hello from self-hosted runner!"
